@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 240" width="900" height="240" role="img" aria-label="SkillUp Interactive logo">
+  <defs>
+    <linearGradient id="grad-purple" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#8500f9"/>
+      <stop offset="100%" stop-color="#C13BFF"/>
+    </linearGradient>
+    <style type="text/css"><![CDATA[
+      .t1{ font-family: 'Poppins', 'Segoe UI', Arial, sans-serif; font-weight:800; font-size:120px; fill:#000000; }
+      .t2{ font-family: 'Poppins', 'Segoe UI', Arial, sans-serif; font-weight:900; font-size:120px; fill:url(#grad-purple); }
+      .sub{ font-family: 'Poppins', 'Segoe UI', Arial, sans-serif; font-weight:700; font-size:28px; letter-spacing:6px; fill:#111827; }
+    ]]></style>
+  </defs>
+
+  <!-- Main wordmark -->
+  <g transform="translate(20,30)">
+    <!-- "Skill" in black -->
+    <text class="t1" x="0" y="120">Skill</text>
+    <!-- "UP" where U/P use purple gradient (keeps visual weight) -->
+    <text class="t2" x="430" y="120">UP</text>
+
+    <!-- subtitle "INTERACTIVE" below -->
+    <text class="sub" x="0" y="180">INTERACTIVE</text>
+  </g>
+</svg>

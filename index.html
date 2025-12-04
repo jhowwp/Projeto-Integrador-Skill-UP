@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillUp Interactive | Gamificação Corporativa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            /* Palette aligned to project `style.css` */
+            --primary: #8500f9; /* accent-1 from style.css */
+            --primary-light: #8b5cf6;
+            --secondary: #554e4e; /* accent-2 from style.css */
+            --accent: #F7A500; /* bg/accent from style.css */
+            --light: #ffffff;
+            --dark: #111827; /* text color from style.css */
+            --gray: #f1f5f9;
+            --text: #111827;
+            --text-light: #6b7280;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--text);
+        }
+
+        /* Header e Navegação */
+        header {
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: var(--secondary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        .auth-buttons { display:flex; gap:15px; }
+        /* button base/variants moved to `style.css` (use .btn, .btn-primary, .btn-outline) */
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            /* brighter purple -> warm accent gradient for a livelier index */
+            background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent) 100%);
+            color: #fff;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3.2rem;
+            color: #ffffff;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 0 12px 30px rgba(0,0,0,0.25);
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        /* Hero buttons adjustments for better contrast */
+        .hero .hero-buttons .btn-outline{
+            border: 2px solid rgba(255,255,255,0.7);
+            color: #fff;
+            background: transparent;
+            padding: 10px 22px;
+            border-radius: 40px;
+            margin-left: 12px;
+        }
+        .hero .hero-buttons .btn-outline:hover{
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+        }
+        .hero .hero-buttons .btn-primary{ padding: 12px 28px; border-radius:40px; }
+
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(58, 79, 206, 0.15);
+        }
+
+        /* Seções comuns */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        /* Cards de serviços */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .service-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .service-card p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Formulários de login/cadastro */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            padding: 40px 0;
+        }
+
+        .auth-box {
+            background-color: white;
+            border-radius: 16px;
+            padding: 50px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-box h2 {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .form-options a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--text-light);
+        }
+
+        .auth-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Aplicação Principal */
+        /* Dashboard navbar styles moved to `style.css` to set white background and orange links */
+        .app-nav { display:flex; justify-content:space-between; align-items:center; }
+        .app-nav ul { display:flex; gap:25px; list-style:none; }
+        .app-nav ul li a{ text-decoration:none; display:flex; align-items:center; gap:8px; }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .dashboard {
+            padding: 40px 0;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .stat-info h3 {
+            font-size: 2rem;
+            color: var(--dark);
+        }
+
+        .stat-info p {
+            color: var(--text-light);
+        }
+
+        /* Cards de cursos */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .course-card {
+            background-color: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .course-header {
+            padding: 25px;
+            background-color: var(--primary-light);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .course-header h3 {
+            font-size: 1.4rem;
+        }
+
+        .course-level {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .course-body {
+            padding: 25px;
+        }
+
+        .course-progress {
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: var(--gray);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--secondary);
+            border-radius: 4px;
+        }
+
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: var(--accent);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 992px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            nav ul {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 60px 0;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .auth-box {
+                padding: 30px;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Página Inicial -->
+    <div id="index-page">
+        <header>
+            <div class="container nav-container">
+                                <a href="#" class="logo" onclick="showPage('index')">
+                                    <img src="logo.png" alt="SkillUp" style="height:56px; width:160px; object-fit:contain; border-radius:8px;">
+                                </a>
+                <nav>
+                    <ul>
+                        <li><a href="#" onclick="showPage('index')">Início</a></li>
+                        <li><a href="#services" onclick="scrollToSection('services')">Serviços</a></li>
+                        <li><a href="#about" onclick="scrollToSection('about')">Sobre</a></li>
+                        <li><a href="#funcionamento" onclick="scrollToSection('funcionamento')">Funcionamento</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons">
+                    <a href="#" class="btn btn-outline" onclick="showPage('login')">Login</a>
+                    <a href="#" class="btn btn-primary" onclick="showPage('register')">Experimente Grátis</a>
+                </div>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="container hero-content">
+                <div class="hero-text">
+                    <h1>Transforme treinamento em performance com gamificação</h1>
+                    <p>A SkillUp Interactive combina tecnologia educacional, design de jogos e análise de desempenho para tornar o aprendizado corporativo imersivo, lúdico e orientado a resultados.</p>
+                    <div class="hero-buttons">
+                        <a href="#" class="btn btn-primary" onclick="showPage('register')">Comece Agora</a>
+                        <a href="#services" class="btn btn-outline" onclick="scrollToSection('services')">Conheça nossos serviços</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Plataforma de Gamificação SkillUp">
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Nossas Soluções</h2>
+                    <p>Oferecemos uma plataforma digital completa para capacitação empresarial, integrando gamificação, feedback contínuo e métricas de desempenho.</p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>E-Learning Gamificado</h3>
+                        <p>Plataforma de aprendizado com trilhas personalizadas, minigames interativos e sistemas de recompensa para engajar colaboradores.</p>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Simulações Corporativas</h3>
+                        <p>Jogos de simulação para desenvolvimento de soft skills, segurança no trabalho e aumento de produtividade em ambientes controlados.</p>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-trophy"></i>
+                        <h3>Sistemas de Recompensa</h3>
+                        <p>Sistema de ranking, medalhas, níveis e conquistas que motivam os colaboradores a evoluir continuamente suas habilidades.</p>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-chart-bar"></i>
+                        <h3>Painéis de Desempenho</h3>
+                        <p>Relatórios automáticos de progresso e impacto da capacitação para RH e gestores acompanharem os resultados em tempo real.</p>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <a href="#" class="btn btn-secondary" onclick="showPage('register')">Solicitar Demonstração</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="section" style="background-color: #f0f5ff;">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Sobre a SkillUp Interactive</h2>
+                    <p>Nascemos do desejo de transformar o modo como empresas treinam e desenvolvem seus colaboradores, aliando tecnologia, motivação e resultados.</p>
+                </div>
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <div style="background-color: white; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                        <h3 style="color: var(--dark); margin-bottom: 20px;">Nossa História</h3>
+                        <p style="margin-bottom: 20px; line-height: 1.6;">Fundada por profissionais das áreas de tecnologia educacional, psicologia organizacional e design de jogos, a SkillUp surgiu ao observar que métodos tradicionais de capacitação não conseguiam engajar adequadamente os profissionais.</p>
+                        <p style="margin-bottom: 20px; line-height: 1.6;">Com o avanço das tecnologias digitais e o crescimento das metodologias de aprendizagem ativa, evoluímos para uma plataforma interativa que utiliza gamificação, simulações e desafios personalizados para tornar o aprendizado mais dinâmico, mensurável e envolvente.</p>
+                        <p style="line-height: 1.6;">Hoje, nos posicionamos como uma edtech corporativa inovadora, ajudando empresas a transformar treinamento em performance.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Página: Funcionamento -->
+        <section id="funcionamento" class="section">
+            <div class="doc-header">
+                <h1>Como Funciona</h1>
+                <p>Conheça a experiência prática da nossa plataforma e experimente um protótipo do jogo.</p>
+                <div style="margin-top:18px;">
+                    <a class="game-link-button btn-primary" href="https://ylo2-6.itch.io/skillup-interactive" target="_blank" rel="noopener noreferrer">Jogar</a>
+                </div>
+            </div>
+            <div class="doc-main container">
+                <section>
+                    <h2>Visão Geral</h2>
+                    <p>O SkillUp Interactive combina trilhas de aprendizado com minigames e simulações que reforçam o aprendizado prático. Clique em "Jogar" para acessar a versão demo hospedada no itch.io.</p>
+                </section>
+                <section>
+                    <h2>Objetivos do Jogo</h2>
+                    <ul>
+                        <li>Reforçar conceitos por meio de exercícios interativos.</li>
+                        <li>Promover tomada de decisão em cenários realistas.</li>
+                        <li>Medir desempenho e oferecer feedback imediato.</li>
+                    </ul>
+                </section>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-col">
+                        <h3>SkillUp Interactive</h3>
+                        <p style="color: #ccc; line-height: 1.6;">Transformando treinamento corporativo através da gamificação e tecnologia educacional.</p>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Links Rápidos</h3>
+                        <ul>
+                            <li><a href="#" onclick="showPage('index')">Início</a></li>
+                            <li><a href="#services" onclick="scrollToSection('services')">Serviços</a></li>
+                            <li><a href="#about" onclick="scrollToSection('about')">Sobre</a></li>
+                            <li><a href="#" onclick="showPage('login')">Login</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h3>Contato</h3>
+                        <ul>
+                            <li><i class="fas fa-envelope"></i> contato@skillup.com</li>
+                            <li><i class="fas fa-phone"></i> (11) 99999-9999</li>
+                            <li><i class="fas fa-map-marker-alt"></i> São Paulo, SP</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="copyright">
+                    &copy; 2023 SkillUp Interactive. Todos os direitos reservados.
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Página de Login -->
+    <div id="login-page" style="display: none;">
+        <header>
+            <div class="container nav-container">
+                <a href="#" class="logo" onclick="showPage('index')">
+                    <img src="logo.png" alt="SkillUp" style="height:56px; width:160px; object-fit:contain; border-radius:8px;">
+                </a>
+                <div>
+                    <a href="#" class="btn btn-outline" onclick="showPage('index')">Voltar ao site</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="auth-container">
+                <div class="auth-box">
+                <h2>Login na Plataforma</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">E-mail</label>
+                        <input type="email" id="loginEmail" placeholder="seu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Senha</label>
+                        <input type="password" id="loginPassword" placeholder="Sua senha" required>
+                    </div>
+                    <div class="form-options">
+                        <label>
+                            <input type="checkbox" id="rememberMe">
+                            Lembrar-me
+                        </label>
+                        <a href="#" onclick="openResetModal(); return false;">Esqueci minha senha</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary full">Entrar na Plataforma</button>
+                </form>
+                <div class="auth-link">
+                    Não tem uma conta? <a href="#" onclick="showPage('register')">Cadastre-se gratuitamente</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Página de Cadastro -->
+    <div id="register-page" style="display: none;">
+        <header>
+            <div class="container nav-container">
+                <a href="#" class="logo" onclick="showPage('index')">
+<img src="logo.png" alt="SkillUp" style="height:56px; width:160px; object-fit:contain; border-radius:8px;">                </a>
+                <div>
+                    <a href="#" class="btn btn-outline" onclick="showPage('index')">Voltar ao site</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="auth-container">
+                <div class="auth-box">
+                <h2>Criar Conta Gratuita</h2>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="registerName">Nome Completo</label>
+                        <input type="text" id="registerName" placeholder="Seu nome completo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">E-mail Corporativo</label>
+                        <input type="email" id="registerEmail" placeholder="seu@empresa.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerCompany">Empresa</label>
+                        <input type="text" id="registerCompany" placeholder="Nome da sua empresa" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerRole">Cargo</label>
+                        <select id="registerRole" required>
+                            <option value="">Selecione seu cargo</option>
+                            <option value="rh">Recursos Humanos</option>
+                            <option value="gestor">Gestor/Líder</option>
+                            <option value="colaborador">Colaborador</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Senha</label>
+                        <input type="password" id="registerPassword" placeholder="Crie uma senha segura" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerConfirmPassword">Confirmar Senha</label>
+                        <input type="password" id="registerConfirmPassword" placeholder="Digite a senha novamente" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary full">Criar Conta Gratuita</button>
+                </form>
+                <div class="auth-link">
+                    Já tem uma conta? <a href="#" onclick="showPage('login')">Faça login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Aplicação Principal -->
+    <div id="app-page" style="display: none;">
+        <div class="app-header">
+            <div class="container app-nav">
+                <a href="#" class="logo" onclick="showPage('index')" style="color: white;">
+<img src="logo.png" alt="SkillUp" style="height:56px; width:160px; object-fit:contain; border-radius:8px;">                </a>
+                <nav>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
+                        <li><a href="#"><i class="fas fa-graduation-cap"></i> Meus Cursos</a></li>
+                        <li><a href="#"><i class="fas fa-trophy"></i> Conquistas</a></li>
+                        <li><a href="#"><i class="fas fa-chart-bar"></i> Desempenho</a></li>
+                    </ul>
+                </nav>
+                <div class="user-info">
+                    <div class="user-avatar">JS</div>
+                    <div>
+                        <div style="font-weight: 600;">João Silva</div>
+                        <div style="font-size: 0.9rem; opacity: 0.8;">Nível 7 • 2.540 pontos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard container">
+            <div class="dashboard-header">
+                <div>
+                    <h1 style="color: var(--dark); margin-bottom: 10px;">Bem-vindo de volta, João!</h1>
+                    <p style="color: var(--text-light);">Continue sua jornada de aprendizado e acumule pontos para subir de nível.</p>
+                </div>
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <div style="background-color: var(--primary); color: white; padding: 10px 20px; border-radius: 8px; text-align: center;">
+                        <div style="font-size: 0.9rem;">Seu Ranking</div>
+                        <div style="font-size: 1.5rem; font-weight: bold;">#12</div>
+                    </div>
+                    <a class="game-link-button btn-primary" href="https://ylo2-6.itch.io/skillup-interactive" target="_blank" rel="noopener noreferrer">Jogar</a>
+                </div>
+            </div>
+
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: var(--primary);">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>7</h3>
+                        <p>Cursos em andamento</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: var(--secondary);">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>24</h3>
+                        <p>Conquistas obtidas</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: var(--accent);">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>42h</h3>
+                        <p>Tempo de aprendizado</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: #9b59b6;">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>87%</h3>
+                        <p>Taxa de conclusão</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="color: var(--dark); margin-bottom: 25px;">Meus Cursos em Destaque</h2>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>Liderança 4.0</h3>
+                        <span class="course-level">Avançado</span>
+                    </div>
+                    <div class="course-body">
+                        <div class="course-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%;"></div>
+                            </div>
+                            <div class="course-stats">
+                                <span>75% completo</span>
+                                <span>+450 pontos</span>
+                            </div>
+                        </div>
+                        <p style="margin-bottom: 20px; color: var(--text-light);">Desenvolva habilidades de liderança para a era digital com simulações interativas.</p>
+                        <button class="btn btn-primary full">Continuar Curso</button>
+                    </div>
+                </div>
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>Segurança no Trabalho</h3>
+                        <span class="course-level">Intermediário</span>
+                    </div>
+                    <div class="course-body">
+                        <div class="course-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 40%;"></div>
+                            </div>
+                            <div class="course-stats">
+                                <span>40% completo</span>
+                                <span>+220 pontos</span>
+                            </div>
+                        </div>
+                        <p style="margin-bottom: 20px; color: var(--text-light);">Aprenda práticas de segurança através de simulações gamificadas.</p>
+                        <button class="btn btn-primary full">Continuar Curso</button>
+                    </div>
+                </div>
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>Comunicação Eficaz</h3>
+                        <span class="course-level">Iniciante</span>
+                    </div>
+                    <div class="course-body">
+                        <div class="course-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 90%;"></div>
+                            </div>
+                            <div class="course-stats">
+                                <span>90% completo</span>
+                                <span>+680 pontos</span>
+                            </div>
+                        </div>
+                        <p style="margin-bottom: 20px; color: var(--text-light);">Aprimore suas habilidades de comunicação com desafios interativos.</p>
+                        <button class="btn btn-primary full">Continuar Curso</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background-color: white; border-radius: 16px; padding: 30px; margin-top: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                <h3 style="color: var(--dark); margin-bottom: 20px;">Próximas Conquistas</h3>
+                <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                    <div style="text-align: center;">
+                        <div style="width: 70px; height: 70px; background-color: var(--gray); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 1.5rem;">
+                            <i class="fas fa-medal" style="color: #FFD700;"></i>
+                        </div>
+                        <div style="font-weight: 600;">Aprendiz Mestre</div>
+                        <div style="font-size: 0.9rem; color: var(--text-light);">Complete 10 cursos</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="width: 70px; height: 70px; background-color: var(--gray); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 1.5rem;">
+                            <i class="fas fa-bolt" style="color: var(--accent);"></i>
+                        </div>
+                        <div style="font-weight: 600;">Velocista</div>
+                        <div style="font-size: 0.9rem; color: var(--text-light);">Conclua um curso em 3 dias</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="width: 70px; height: 70px; background-color: var(--gray); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 1.5rem;">
+                            <i class="fas fa-users" style="color: var(--primary);"></i>
+                        </div>
+                        <div style="font-weight: 600;">Colaborador</div>
+                        <div style="font-size: 0.9rem; color: var(--text-light);">Compartilhe 5 materiais</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mostrar apenas a página selecionada
+        function showPage(pageId) {
+            // Esconder todas as páginas
+            document.getElementById('index-page').style.display = 'none';
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('register-page').style.display = 'none';
+            document.getElementById('app-page').style.display = 'none';
+            
+            // Mostrar a página solicitada
+            document.getElementById(pageId + '-page').style.display = 'block';
+            
+            // Se for a página de app, simulamos login bem-sucedido
+            if (pageId === 'app') {
+                // Simular dados do usuário após login
+                console.log('Usuário logado com sucesso! Acessando a plataforma...');
+            }
+            
+                // Rolar para o topo
+                window.scrollTo(0, 0);
+
+                // notify any script that a page was shown (used for autofocus/actions)
+                if(typeof window.onPageShown === 'function'){
+                    try{ window.onPageShown(pageId); }catch(e){}
+                }
+
+                return false;
+        }
+
+        // Função para rolar para uma seção específica
+        function scrollToSection(sectionId) {
+            // Se não estiver na página inicial, vá para ela primeiro
+            if (document.getElementById('index-page').style.display === 'none') {
+                showPage('index');
+                // Aguardar um pouco para a página carregar antes de rolar
+                setTimeout(() => {
+                    const element = document.getElementById(sectionId);
+                    if (element) {
+                        const yOffset = -80; // Ajuste para o header fixo
+                        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                        window.scrollTo({top: y, behavior: 'smooth'});
+                    }
+                }, 100);
+            } else {
+                const element = document.getElementById(sectionId);
+                if (element) {
+                    const yOffset = -80; // Ajuste para o header fixo
+                    const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                    window.scrollTo({top: y, behavior: 'smooth'});
+                }
+            }
+            
+            return false;
+        }
+
+        // Manipulação de páginas e rolagem
+        // showPage agora notifica um hook global `window.onPageShown(pageId)` quando disponível
+        // As submissões de formulário são gerenciadas por `auth.js` (localStorage / toasts / redirecionamentos)
+        // Inicializar mostrando a página inicial
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('index');
+        });
+    </script>
+    <!-- toast container for in-page notifications -->
+    <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+    <script src="auth.js"></script>
+</body>
+</html>
